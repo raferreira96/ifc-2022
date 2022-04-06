@@ -1,22 +1,23 @@
 package model
 
 import (
-	"time"
-	uuid "github.com/satori/go.uuid"
-	"github.com/asaskevich/govalidator"
 	"errors"
+	"time"
+
+	"github.com/asaskevich/govalidator"
+	uuid "github.com/satori/go.uuid"
 )
 
 const (
-	TransactionPending string = "pending"
-	TransactionCompleted string ="completed"
-	TransactionError string = "error"
+	TransactionPending   string = "pending"
+	TransactionCompleted string = "completed"
+	TransactionError     string = "error"
 	TransactionConfirmed string = "confirmed"
 )
 
 type TransactionRepositoryInterface interface {
 	Register(transaction *Transaction) error
-	Save(transaction * Transaction) error
+	Save(transaction *Transaction) error
 	Find(id string) (*Transaction, error)
 }
 
@@ -25,28 +26,28 @@ type Transactions struct {
 }
 
 type Transaction struct {
-	Base `valid:"required"`
-	AccountFrom *Account `valid:"-"`
-	Amount float64 `json: "amount" valid:"notnull"`
-	PixKeyTo *PixKey `valid:"-"`
-	Status string `json: "status" valid:"notnull"`
-	Description string `json: "description" valid:"notnull"`
-	CancelDescription string `json: "cancel_description" valid:"-"`
+	Base              `valid:"required"`
+	AccountFrom       *Account `valid:"-"`
+	Amount            float64  `json:"amount" valid:"notnull"`
+	PixKeyTo          *PixKey  `valid:"-"`
+	Status            string   `json:"status" valid:"notnull"`
+	Description       string   `json:"description" valid:"notnull"`
+	CancelDescription string   `json:"cancel_description" valid:"-"`
 }
 
-func(t *Transaction) isValid() error {
+func (t *Transaction) isValid() error {
 	_, err := govalidator.ValidateStruct(t)
 
 	if t.Amount <= 0 {
-		return errors.New(text: "the amount must be greater than 0")
+		return errors.New("the amount must be greater than 0")
 	}
 
 	if t.Status != TransactionPending && t.Status != TransactionCompleted && t.Status != TransactionError {
-		return error.New(text: "invalid status for the transaction")
+		return errors.New("invalid status for the transaction")
 	}
 
 	if t.PixKeyTo.AccountID == t.AccountFrom.ID {
-		return errors.New(text: "the source and destination account cannot be the same")
+		return errors.New("the source and destination account cannot be the same")
 	}
 
 	if err != nil {
@@ -56,11 +57,11 @@ func(t *Transaction) isValid() error {
 }
 
 func NewTransaction(accountFrom *Account, amount float64, pixKeyTo *PixKey, description string) (*Transaction, error) {
-	transaction := Transaction {
+	transaction := Transaction{
 		AccountFrom: accountFrom,
-		Amount: amount,
-		PixKeyTo: pixKeyTo,
-		Status: TransactionPending,
+		Amount:      amount,
+		PixKeyTo:    pixKeyTo,
+		Status:      TransactionPending,
 		Description: description,
 	}
 
