@@ -4,6 +4,8 @@ go 1.15
 
 require (
 	github.com/asaskevich/govalidator v0.0.0-20210307081110-f21760c49a8d
+	github.com/confluentinc/confluent-kafka-go v1.8.2
+	github.com/go-playground/validator/v10 v10.10.1
 	github.com/google/go-cmp v0.5.6 // indirect
 	github.com/jinzhu/gorm v1.9.16
 	github.com/jinzhu/now v1.1.5 // indirect
