@@ -11,5 +11,7 @@ Iniado em `04/04/2022` e finalizado em `11/04/2022`
     - gRPC e o abismo entre devs e empresas
 - **06/04**:
     - Apache Kafka e sua exigência no mercado
+- **07/04**:
+    - Nest.js: Produtividade na era dos microsserviços
 
 Realização: [Full Cycle](https://imersao.fullcycle.com.br)
